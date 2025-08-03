@@ -1,0 +1,12 @@
+
+
+services:
+  compiler-service:
+    build: ./compiler-service
+    container_name: compiler-service
+    ports:
+      - '8000:8000'  # maps container port 8000 to your localhost:8000
+    volumes:
+      - ./compiler-service:/usr/src/app
+    working_dir: /usr/src/app
+    command: npm start
