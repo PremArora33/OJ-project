@@ -1,7 +1,7 @@
 # Node.js dependencies
 node_modules/
-compiler-service/node_modules/ # <-- Add this line
-client/node_modules/          # <-- Add this line (good practice for Next.js)
+compiler-service/node_modules/
+client/node_modules/ 
 
 # Environment variables
 .env

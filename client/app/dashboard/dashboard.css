@@ -1,0 +1,904 @@
+/* app/dashboard/dashboard.css */
+
+/* Define dashboard-specific CSS variables if they are not global */
+:root {
+  --sidebar-bg: #1e1436; /* Dark background for sidebar */
+  --sidebar-link-hover-bg: rgba(160, 68, 255, 0.1); /* Light hover effect */
+  --sidebar-link-active-bg: rgba(160, 68, 255, 0.2); /* More prominent active effect */
+  --primary-color: #a044ff; /* A consistent primary color for highlights */
+  --primary-rgb-value: 160, 68, 255; /* RGB for shadows/transparency */
+  --progress-bar-bg: #333;
+  --progress-bar-fill: linear-gradient(to right, #00d97e, #00ff8c); /* Green gradient */
+  --status-accepted: #00d97e;
+  --status-wrong: #ff6347;
+  --status-tle: #ffd700;
+  --status-rte: #e55353;
+  /* NEW: Modal specific colors */
+  --modal-overlay-bg: rgba(0, 0, 0, 0.7);
+  --modal-close-btn-color: #bbb;
+  --modal-close-btn-hover-color: #fff;
+  --avatar-border-selected: 3px solid var(--primary-color);
+  --avatar-hover-shadow: 0 0 15px rgba(var(--primary-rgb-value), 0.6);
+}
+
+body.light-mode {
+  --sidebar-bg: #f8f8f8;
+  --sidebar-link-hover-bg: rgba(130, 32, 255, 0.1);
+  --sidebar-link-active-bg: rgba(130, 32, 255, 0.2);
+  --primary-color: #8220ff;
+  --primary-rgb-value: 130, 32, 255;
+  --progress-bar-bg: #e0e0e0;
+  --progress-bar-fill: linear-gradient(to right, #00a05a, #00c070);
+  --status-accepted: #00a05a;
+  --status-wrong: #cc4f38;
+  --status-tle: #ccaa00;
+  --status-rte: #b44242;
+  /* NEW: Modal specific colors for light mode */
+  --modal-overlay-bg: rgba(0, 0, 0, 0.5);
+  --modal-close-btn-color: #555;
+  --modal-close-btn-hover-color: #333;
+  --avatar-border-selected: 3px solid var(--primary-color);
+  --avatar-hover-shadow: 0 0 15px rgba(var(--primary-rgb-value), 0.4);
+}
+
+
+/* ==== TOP NAVBAR (CodeMaster Style) - Dashboard Specific ==== */
+.top-navbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 2rem;
+  background: var(--sidebar-bg);
+  border-bottom: var(--navbar-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background 0.5s ease, border-bottom 0.5s ease;
+}
+
+.top-navbar-logo-link {
+  text-decoration: none;
+  order: 1;
+}
+
+.top-navbar .logo-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.top-navbar .logo-icon {
+  width: 26px;
+  height: 26px;
+  filter: drop-shadow(0 0 6px rgba(var(--primary-rgb-value), 0.6));
+}
+
+.top-navbar .logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--logo-text-color);
+  font-family: var(--font-urbanist), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "liga" on, "clig" on;
+  font-variation-settings: normal;
+  letter-spacing: normal;
+}
+
+.top-nav-links {
+  display: flex;
+  list-style: none;
+  gap: 1.8rem;
+  order: 3;
+  margin-left: auto;
+  align-items: center;
+}
+
+.top-nav-links a {
+  color: var(--link-color);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.top-nav-links a::after {
+  content: '';
+  display: block;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(to right, #a044ff, #6a00ff);
+  transition: 0.4s ease;
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+}
+
+.top-nav-links a:hover::after {
+  width: 100%;
+}
+
+.top-nav-links a:hover {
+  color: var(--link-hover-color);
+}
+
+.top-navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Keep gap for spacing between elements */
+  order: 2;
+  margin: 0 auto;
+}
+
+.navbar-search {
+  position: relative;
+  flex-grow: 1;
+  max-width: 400px;
+}
+.navbar-search input {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  padding-left: 2.5rem;
+  border-radius: 8px;
+  background: var(--input-bg);
+  border: var(--input-border);
+  color: var(--text-color);
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+.navbar-search input:focus {
+  outline: none;
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 8px rgba(var(--primary-rgb-value), 0.4);
+}
+.navbar-search .search-icon {
+  position: absolute;
+  left: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--link-color);
+  font-size: 1rem;
+}
+
+/* NEW: Style for the avatar button */
+.navbar-avatar-btn {
+  background: transparent; /* No background by default */
+  border: none;
+  padding: 0; /* Remove default button padding */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Space between avatar image and text */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 9999px; /* Make it fully rounded if needed for hover effect */
+  padding: 0.2rem 0.5rem; /* Small padding for hover area */
+}
+
+.navbar-avatar-btn:hover {
+  background: rgba(var(--primary-rgb-value), 0.1); /* Subtle background on hover */
+  box-shadow: 0 0 8px rgba(var(--primary-rgb-value), 0.3); /* Shadow on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+/* Fix: Ensure text color is correct for avatar button */
+.navbar-avatar-btn span {
+  color: var(--text-color); /* Use text-color variable, which is white in dark mode */
+}
+
+
+.navbar-user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary-color);
+  cursor: pointer; /* Keep cursor pointer on image itself */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 6px rgba(var(--primary-rgb-value), 0.3);
+}
+/* Removed individual hover for navbar-user-avatar as it's handled by navbar-avatar-btn now */
+/* .navbar-user-avatar:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 12px rgba(var(--primary-rgb-value), 0.7);
+} */
+
+
+/* ==== DASHBOARD LAYOUT (CodeMaster Style) - Dashboard Specific ==== */
+.dashboard-layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  color: var(--text-color);
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+.dashboard-main-wrapper {
+  display: flex;
+  flex: 1;
+  max-width: 1920px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ==== DASHBOARD SIDEBAR ==== */
+.dashboard-sidebar {
+  width: 250px;
+  background: var(--sidebar-bg);
+  border-right: var(--navbar-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem 0 1.5rem 0;
+  flex-shrink: 0;
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.sidebar-nav li {
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 2rem;
+  color: var(--link-color);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.sidebar-link:hover {
+  background: var(--sidebar-link-hover-bg);
+  color: var(--link-hover-color);
+}
+
+.sidebar-link.active {
+  background: var(--sidebar-link-active-bg);
+  color: var(--link-hover-color);
+  border-right: 4px solid var(--primary-color);
+}
+
+.sidebar-link svg {
+  font-size: 1.1rem;
+  color: var(--link-color);
+  transition: color 0.3s ease;
+}
+
+.sidebar-link.active svg {
+  color: var(--primary-color);
+}
+
+.sidebar-settings {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--td-border);
+  margin-top: auto;
+}
+
+.sidebar-settings .sidebar-link {
+  padding-top: 1.2rem;
+}
+
+.copyright-text {
+  font-size: 0.75rem;
+  color: var(--link-color);
+  text-align: center;
+  margin-top: 1.5rem;
+  opacity: 0.7;
+}
+
+
+/* ==== MAIN DASHBOARD CONTENT GRID ==== */
+.dashboard-content-grid {
+  flex-grow: 1;
+  padding: 1.5rem 2rem;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+
+  grid-template-areas:
+    "profile-area stat1 stat2"
+    "difficulty-chart activity-chart activity-chart"
+    "submissions-table submissions-table recommendations-list";
+}
+
+/* Assign grid areas to components */
+.profile-card-codemaster { grid-area: profile-area; }
+.total-problems-solved { grid-area: stat1; }
+.acceptance-rate { grid-area: stat2; }
+.difficulty-chart-codemaster { grid-area: difficulty-chart; }
+.activity-chart-codemaster { grid-area: activity-chart; }
+.submissions-table-card { grid-area: submissions-table; }
+.recommendations-card { grid-area: recommendations-list; }
+
+
+/* General Dashboard Section (Card) Styling */
+.dashboard-section {
+  background: var(--card-bg);
+  border: var(--card-border);
+  backdrop-filter: blur(12px);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  transition: background 0.5s ease, border 0.5s ease, box-shadow 0.5s ease, transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(var(--primary-rgb-value), 0.4);
+}
+
+
+.dashboard-section h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.dashboard-section h3 svg {
+  color: var(--primary-color);
+}
+
+.chart-subtitle {
+  font-size: 0.9rem;
+  color: var(--link-color);
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}
+
+
+/* --- Profile Card (CodeMaster Specific) --- */
+.profile-card-codemaster {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: flex-start;
+  padding-bottom: 1rem;
+}
+
+.profile-header-codemaster {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+  width: 100%;
+}
+
+.profile-avatar-codemaster {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid var(--primary-color);
+  object-fit: cover;
+  box-shadow: 0 0 10px rgba(var(--primary-rgb-value), 0.6);
+  margin-bottom: 0.5rem;
+}
+
+.profile-info-codemaster h3 {
+  font-size: 1.6rem;
+  margin-bottom: 0.3rem;
+  color: var(--text-color);
+  text-align: center;
+  gap: 0;
+}
+
+.global-rank-codemaster {
+  font-size: 0.9rem;
+  color: var(--link-color);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  justify-content: center;
+}
+.global-rank-codemaster svg {
+  color: var(--link-color);
+  font-size: 0.9rem;
+}
+
+.overall-progress-codemaster {
+  width: 100%;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--td-border);
+}
+
+.overall-progress-codemaster h4 {
+  font-size: 0.95rem;
+  color: var(--link-color);
+  margin-bottom: 0.6rem;
+  text-align: center;
+}
+
+.progress-bar-container {
+  width: 90%;
+  height: 10px;
+  background: var(--progress-bar-bg);
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  margin: 0 auto;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--progress-bar-fill);
+  border-radius: 5px;
+  transition: width 0.5s ease-in-out;
+}
+
+.progress-bar-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: var(--text-color);
+  text-shadow: 0 0 2px rgba(0,0,0,0.5);
+  mix-blend-mode: overlay;
+}
+body.light-mode .progress-bar-text {
+  color: var(--text-color);
+  text-shadow: none;
+}
+
+/* --- Small Stat Cards (Total Problems Solved, Acceptance Rate) --- */
+.stat-card-small {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+}
+
+.stat-icon-codemaster {
+  font-size: 2.2rem;
+  color: var(--primary-color);
+  margin-bottom: 0.8rem;
+  opacity: 0.8;
+}
+
+.stat-value-codemaster {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-color);
+  margin-bottom: 0.4rem;
+}
+
+.stat-label-codemaster {
+  font-size: 0.9rem;
+  color: var(--link-color);
+  opacity: 0.8;
+}
+
+/* --- Chart Cards --- */
+.chart-card-codemaster {
+  justify-content: space-between;
+}
+
+/* --- Recent Submissions Table Card --- */
+.submissions-table-card {
+  overflow-x: auto;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.submissions-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.submissions-table th,
+.submissions-table td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--td-border);
+  white-space: nowrap;
+}
+
+.submissions-table th {
+  background: var(--table-head-bg);
+  color: var(--table-head-color);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+.submissions-table td {
+  color: var(--text-color);
+}
+
+.submissions-table tbody tr:hover {
+  background: rgba(var(--primary-rgb-value), 0.05);
+}
+
+.submissions-table td a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.submissions-table td a:hover {
+  color: var(--link-hover-color);
+}
+
+.status-badge {
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.8rem;
+  color: #fff;
+  display: inline-block;
+  min-width: 90px;
+  text-align: center;
+}
+.status-badge.status-accepted { background-color: var(--status-accepted); }
+.status-badge.status-wrong { background-color: var(--status-wrong); }
+.status-badge.status-tle { background-color: var(--status-tle); }
+.status-badge.status-rte { background-color: var(--status-rte); }
+
+
+/* --- Recommended Problems List Card --- */
+.recommendations-card {
+  padding-bottom: 1rem;
+  justify-content: space-between;
+}
+
+.recommended-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.8rem;
+  flex-grow: 1;
+}
+
+.recommendation-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--td-border);
+}
+
+.recommendation-item:last-child {
+  border-bottom: none;
+}
+
+.problem-title-link {
+  color: var(--link-color);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  transition: color 0.3s ease;
+}
+
+.problem-title-link:hover {
+  color: var(--link-hover-color);
+}
+
+.problem-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag-badge {
+  background: var(--tag-bg);
+  color: var(--text-color);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.view-all-recommendations {
+  width: 100%;
+  padding-top: 1rem;
+  border-top: 1px solid var(--td-border);
+  margin-top: auto;
+  text-align: center;
+}
+
+.btn-secondary {
+  background: rgba(var(--primary-rgb-value), 0.1);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-secondary:hover {
+  background: rgba(var(--primary-rgb-value), 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(var(--primary-rgb-value), 0.3);
+}
+
+/* Responsive adjustments for CodeMaster layout */
+@media (max-width: 1200px) {
+  .dashboard-content-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "profile-area stat1"
+      "stat2 difficulty-chart"
+      "activity-chart activity-chart"
+      "submissions-table submissions-table"
+      "recommendations-list recommendations-list";
+  }
+  .top-nav-links {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .dashboard-sidebar {
+    width: 200px;
+    padding: 1.5rem 0 1rem 0;
+  }
+  .sidebar-link {
+    padding: 0.6rem 1.5rem;
+  }
+  .dashboard-content-grid {
+    padding: 1rem 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-navbar {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.8rem 1rem;
+  }
+  .top-navbar-logo-link {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 0.8rem;
+    order: 1;
+  }
+  .top-nav-links {
+    display: none;
+    order: unset;
+    margin: unset;
+  }
+  .top-navbar-right {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.8rem;
+    order: 2;
+    margin: 0 auto;
+  }
+  .navbar-search {
+    flex-grow: 1;
+    max-width: none;
+  }
+
+  .dashboard-main-wrapper {
+    flex-direction: column;
+  }
+  .dashboard-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: var(--navbar-border);
+    padding: 1rem 0;
+  }
+  .sidebar-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1rem;
+    margin-top: 0;
+  }
+  .sidebar-nav li {
+    margin-bottom: 0;
+  }
+  .sidebar-link {
+    padding: 0.6rem 1rem;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+  }
+  .sidebar-link svg {
+    font-size: 1rem;
+  }
+  .sidebar-settings {
+    display: none;
+  }
+
+  .dashboard-content-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "profile-area"
+      "stat1"
+      "stat2"
+      "difficulty-chart"
+      "activity-chart"
+      "submissions-table"
+      "recommendations-list";
+    padding: 1rem;
+  }
+
+  .profile-card-codemaster {
+    padding: 1rem;
+  }
+  .profile-avatar-codemaster {
+    width: 70px;
+    height: 70px;
+  }
+  .profile-info-codemaster h3 {
+    font-size: 1.4rem;
+  }
+  .stat-card-small {
+    padding: 1rem;
+  }
+  .stat-icon-codemaster {
+    font-size: 1.8rem;
+  }
+  .stat-value-codemaster {
+    font-size: 1.6rem;
+  }
+  .submissions-table th,
+  .submissions-table td {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  .status-badge {
+    min-width: auto;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-sidebar .sidebar-nav {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .sidebar-link {
+    width: 80%;
+  }
+}
+
+/* NEW: Modal Styles for Avatar Selection */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--modal-overlay-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  position: relative;
+  width: 90%;
+  max-width: 600px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--modal-close-btn-color);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.modal-close-btn:hover {
+  color: var(--modal-close-btn-hover-color);
+}
+
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 1rem;
+  justify-items: center;
+  padding: 1rem 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.avatar-option {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+}
+
+.avatar-option:hover {
+  transform: scale(1.05);
+  box-shadow: var(--avatar-hover-shadow);
+}
+
+.avatar-option.selected {
+  border: var(--avatar-border-selected);
+  box-shadow: var(--avatar-hover-shadow);
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  border-top: 1px solid var(--td-border);
+}
+
+/* Responsive adjustments for modal */
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 1.5rem;
+    max-width: 95%;
+  }
+  .modal-title {
+    font-size: 1.5rem;
+  }
+  .avatar-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 0.8rem;
+  }
+  .avatar-option {
+    width: 80px;
+    height: 80px;
+  }
+}

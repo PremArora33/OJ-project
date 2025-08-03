@@ -1,0 +1,540 @@
+/* client/app/problem/[id]/ProblemPage.module.css */
+
+.mainWorkspaceArea {
+  display: flex;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem; /* Adjusted padding to separate from title */
+  flex-wrap: wrap; /* Allow panels to wrap on smaller screens */
+}
+
+.problemDetailsPanel {
+  flex: 1; /* Takes equal space */
+  min-width: 450px; /* Minimum width before wrapping */
+  background: var(--card-bg);
+  border: var(--card-border);
+  backdrop-filter: blur(12px);
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  overflow-y: auto;
+  max-height: calc(100vh - 120px); /* Adjust max height based on navbar/footer */
+  position: sticky;
+  top: 100px; /* Adjust based on navbar height */
+  color: var(--text-color);
+  transition: background 0.5s ease, border 0.5s ease, box-shadow 0.5s ease, color 0.5s ease;
+}
+
+.codeEditorPanel {
+  flex: 1.5; /* Takes more space than details panel */
+  min-width: 500px; /* Minimum width before wrapping */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: var(--card-bg);
+  border: var(--card-border);
+  backdrop-filter: blur(12px);
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  color: var(--text-color);
+  transition: background 0.5s ease, border 0.5s ease, box-shadow 0.5s ease, color 0.5s ease;
+}
+
+/* Problem Details Panel Styles */
+.problemHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.problemHeader h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.problemMetrics {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--link-color);
+  flex-wrap: wrap;
+}
+
+.problemMetrics span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.problemDescription {
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  color: var(--text-color);
+}
+
+.problemDescription p {
+  margin-bottom: 1rem;
+}
+
+.problemDescription code {
+  background: var(--code-toolbar-bg); /* Use code toolbar bg for inline code */
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-family: monospace;
+  color: var(--output-box-color); /* A distinct color for inline code */
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+.sectionHeading {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.problemDetailsPanel ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.problemDetailsPanel ul li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.exampleBlock {
+  background: var(--input-bg);
+  border: var(--input-border);
+  border-radius: 8px;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 10px rgba(var(--primary-rgb-value), 0.1);
+  transition: background 0.5s ease, border 0.5s ease, box-shadow 0.3s ease;
+}
+
+.exampleBlock h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  color: var(--text-color);
+}
+
+.exampleBlock p {
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+  color: var(--link-color);
+}
+
+.exampleCode {
+  background: var(--output-box-bg); /* Darker for code blocks */
+  padding: 0.8rem;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 0.9rem;
+  overflow-x: auto;
+  color: var(--output-box-color);
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+.tagContainer {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.difficultyBadge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  color: black; /* Default for badges, specific colors defined below */
+  white-space: nowrap; /* Keep badge text on one line */
+}
+
+.difficultyBadge.diff-easy { background-color: var(--status-accepted); }
+.difficultyBadge.diff-medium { background-color: var(--status-tle); }
+.difficultyBadge.diff-hard { background-color: var(--status-wrong); }
+
+
+.scrollButton {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--btn-primary-bg);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(var(--primary-rgb-value), 0.6);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.scrollButton:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 0 18px rgba(var(--primary-rgb-value), 0.8);
+}
+
+
+/* Code Editor Panel Styles */
+.editorControls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.editorLabel {
+  color: var(--text-color);
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.bookmarkButton {
+  background: var(--input-bg);
+  color: var(--link-color);
+  border: var(--input-border);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.bookmarkButton:hover {
+  background: rgba(var(--primary-rgb-value), 0.1);
+  color: var(--text-color);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 8px rgba(var(--primary-rgb-value), 0.4);
+}
+
+.editorContainer {
+  flex-grow: 1; /* Allows editor to fill available space */
+  height: 400px; /* Fixed height for the editor */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(var(--primary-rgb-value), 0.3);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  border: 2px solid var(--input-border);
+  background: var(--input-bg);
+  padding: 5px;
+  margin-bottom: 1rem; /* Space below editor */
+}
+
+.editorContainer:hover {
+  box-shadow: 0 0 25px rgba(var(--primary-rgb-value), 0.5);
+  border-color: var(--input-focus-border);
+}
+
+.editorRunBtn, .editorSubmitBtn {
+  margin-top: 0; /* Already spaced by button-group gap */
+  /* These will use the .glow-btn styles from globals.css */
+}
+
+/* Results Panel */
+.resultsPanel {
+  background: var(--input-bg); /* Use a distinct background for results panel */
+  border: var(--input-border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-top: 1rem; /* Space between buttons and results */
+  box-shadow: 0 0 12px rgba(var(--primary-rgb-value), 0.2);
+  transition: background 0.5s ease, border 0.5s ease, box-shadow 0.5s ease;
+}
+
+.resultsTabs {
+  display: flex;
+  border-bottom: 1px solid var(--navbar-border);
+  margin-bottom: 1rem;
+}
+
+.resultsTabButton {
+  background: none;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--link-color);
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+  /* Override default oj-tab-btn active state if needed, but globals should handle it */
+}
+
+.resultsTabButton:hover {
+  color: var(--link-hover-color);
+}
+
+.resultsTabButton.active {
+  color: var(--oj-tab-btn-active-color); /* from globals */
+  border-bottom: var(--oj-tab-btn-active-border); /* from globals */
+}
+
+.tabContent {
+  padding-top: 1rem;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.outputTitle {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+/* Test Cases Tab */
+.testCasesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.testCaseItem {
+  background: var(--card-bg);
+  border: var(--card-border);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 0 8px rgba(var(--primary-rgb-value), 0.1);
+  transition: all 0.3s ease;
+}
+
+.testCaseItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(var(--primary-rgb-value), 0.3);
+}
+
+.testCaseHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+
+.statusBadge {
+  padding: 0.3rem 0.6rem;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: white; /* Default text for badges */
+}
+
+.statusPassed {
+  background-color: var(--status-accepted);
+}
+
+.statusFailed {
+  background-color: var(--status-wrong);
+}
+
+.testCaseItem pre {
+  background: var(--output-box-bg);
+  padding: 0.8rem;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 0.9rem;
+  overflow-x: auto;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  color: var(--output-box-color);
+}
+
+.testCaseMetrics {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: var(--link-color);
+}
+
+.testCaseMetrics span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Submissions Tab */
+.submissionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.submissionItem {
+  background: var(--input-bg);
+  border: var(--input-border);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  flex-wrap: wrap;
+  gap: 0.8rem; /* Space between wrapped items */
+  box-shadow: 0 0 6px rgba(var(--primary-rgb-value), 0.08);
+  transition: all 0.3s ease;
+}
+
+.submissionItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 12px rgba(var(--primary-rgb-value), 0.2);
+}
+
+/* AI Feedback Tab */
+.aiFeedbackSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.aiFeedbackBox {
+  background: var(--output-box-bg);
+  border: var(--code-toolbar-border);
+  padding: 1.2rem;
+  border-radius: 8px;
+  min-height: 150px;
+  font-family: monospace;
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: var(--output-box-color);
+  overflow-y: auto;
+  transition: background 0.5s ease, border 0.5s ease, color 0.5s ease;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .mainWorkspaceArea {
+    flex-direction: column;
+    padding: 0 1rem 3rem;
+  }
+
+  .problemDetailsPanel,
+  .codeEditorPanel {
+    min-width: unset; /* Remove min-width to allow full responsiveness */
+    width: 100%;
+    max-height: unset; /* Allow panels to expand naturally */
+    position: static; /* Remove sticky positioning */
+  }
+
+  .problemPageTitleSection h1 {
+    font-size: 2.5rem;
+  }
+  .problemPageTitleIcon {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .problemPageTitleSection {
+    padding: 2rem 1rem 1.5rem;
+  }
+  .problemPageTitleSection h1 {
+    font-size: 2rem;
+  }
+  .problemPageTitleIcon {
+    font-size: 2.5rem;
+  }
+  .problemDetailsPanel,
+  .codeEditorPanel {
+    padding: 1.5rem;
+  }
+  .problemHeader h1 {
+    font-size: 1.8rem;
+  }
+  .problemMetrics {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+  .editorControls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+  .editorContainer {
+    height: 300px; /* Smaller editor on mobile */
+  }
+  .resultsTabs {
+    flex-wrap: wrap;
+  }
+  .resultsTabButton {
+    flex: 1 1 auto; /* Allow buttons to wrap and fill space */
+    text-align: center;
+    border-bottom: none; /* Remove individual button border bottom */
+  }
+  .resultsTabButton.active {
+    border-bottom: var(--oj-tab-btn-active-border); /* Keep active border */
+  }
+  .submissionItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .scrollButton {
+    bottom: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .problemPageTitleSection h1 {
+    font-size: 1.8rem;
+  }
+  .problemPageTitleIcon {
+    font-size: 2rem;
+  }
+  .problemDetailsPanel,
+  .codeEditorPanel {
+    padding: 1rem;
+  }
+  .problemHeader h1 {
+    font-size: 1.5rem;
+  }
+  .editorControls, .button-group {
+    gap: 0.5rem;
+  }
+  .editorLabel, .editor-select, .bookmarkButton {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+  .editorRunBtn, .editorSubmitBtn {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  .outputTitle {
+    font-size: 1rem;
+  }
+  .testCaseItem, .submissionItem {
+    padding: 0.8rem;
+  }
+  .statusBadge {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+  }
+}
